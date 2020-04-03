@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 global.__basedir = __dirname;
-
+var hsp = require('heroku-self-ping');
 
 // routes
 var routeUser = require('./app_server/routes/route.user.js');
@@ -14,7 +14,9 @@ var routeDesign = require('./app_server/routes/route.design.js');
 var cors = require('cors')
 
 var app = express();
-app.use(cors())
+app.use(cors());
+
+hsp.default(`https://${process.env.app_url}.herokuapp.com`);
 
 // app.use(express.static(__dirname+'/client'));
 
@@ -49,8 +51,8 @@ app.use('/design', routeDesign);
 
 
 //pictures url
-app.use('/profile', express.static(__dirname + '/uploads/profile/'));
-app.use('/design', express.static(__dirname + '/uploads/designs/'));
+app.use('/profile', express.static(__dirname + '/profile/'));
+app.use('/design', express.static(__dirname + '/designs/'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

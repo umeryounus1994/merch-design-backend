@@ -17,6 +17,7 @@
     "express": "~4.16.0",
     "fcm-notification": "^2.0.0",
     "haversine": "^1.1.1",
+    "heroku-self-ping": "^2.0.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "mongoose": "^5.3.12",
@@ -25,5 +26,4 @@
     "node-excel-export": "^1.4.4",
     "nodemon": "^2.0.2"
   }
-  
 }
