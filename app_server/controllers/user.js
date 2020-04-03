@@ -102,6 +102,22 @@ module.exports.changeStatus = (id, status, options, callback) => {
     user.findOneAndUpdate(query, update, options, callback);
 }
 
+
+module.exports.subscriptionAdd = (data, options, callback) => {
+    var query = {_id: data.userId};
+    var subData = [{
+        subscriptionDate: data.subscriptionDate,
+        subscriptionType: data.subscriptionType,
+        subscriptionAmount: data.subscriptionAmount,
+        expiryDate: data.expiryDate,
+        status: 'active'
+    }];
+    var upData = {
+        subscription: 'yes',
+        subscriptionData: subData
+    }
+    user.findOneAndUpdate(query, upData, options, callback);
+}
 // Delete User   
 module.exports.removeUser = (id, callback) => {
     var query = {_id: id};

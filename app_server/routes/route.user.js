@@ -86,6 +86,28 @@ router.post('/changeStatus', function (req, res) {
     });
 });
 
+router.post('/subscriptionAdd', function (req, res) {
+    user.subscriptionAdd(req.body, function (err, reslt) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        user.getUserById(req.body.userId,function (err, result) {
+            if (err)
+                return res.json({
+                    Message: "Error in Connecting to DB",
+                    status: false
+                });
+            var reslt = {status : true, data: result};
+            return res.json(reslt);
+    
+        });
+    });
+});
+
 router.post('/updateProfileAdmin', function (req, res) {
     user.updateProfileAdmin(req.body, function (err, admin) {
         if (err) {
