@@ -6,8 +6,8 @@ var path = require('path');
             cb(null, __basedir + '/designs/');
         },
         filename: function(req, file, cb) {
-        
-            cb(null, file.fieldname.toLowerCase() + '-' +  Date.now() + file.originalname.toLowerCase())
+            var fileName = file.originalname.toLowerCase();
+            cb(null, file.fieldname.toLowerCase() + '-' +  Date.now() + fileName.trim())
         }
     });
     const upload = multer({storage: storage});
