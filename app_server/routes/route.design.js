@@ -112,6 +112,19 @@ router.post('/edit',designsUpload.fields([
     });
 });
 
+router.get('/updateStatus/:designId', function (req, res) {
+    designs.updateDesignStatus(req.params.designId,function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true};
+        return res.json(reslt);
+
+    });
+});
+
 router.get('/list_designs_home', function (req, res) {
     designs.getDesignsListHome(function (err, result) {
         if (err)

@@ -10,6 +10,7 @@ var hsp = require('heroku-self-ping');
 // routes
 var routeUser = require('./app_server/routes/route.user.js');
 var routeDesign = require('./app_server/routes/route.design.js');
+var routeOrder = require('./app_server/routes/route.order.js');
 
 var cors = require('cors')
 
@@ -48,6 +49,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', routeUser);
 app.use('/design', routeDesign);
+app.use('/order', routeOrder);
 
 
 //pictures url
@@ -82,3 +84,5 @@ app.listen(port, () => {
 module.exports = app;
 
 //https://www.skidrowreloaded.com/call-of-duty-modern-warfare-3-v1-9-461-all-dlcs/
+
+//remove space from filename upload

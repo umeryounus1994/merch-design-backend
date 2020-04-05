@@ -54,6 +54,16 @@ module.exports.editDesign = (data ,callback) =>  {
 
 }
 
+module.exports.updateDesignStatus = (id ,callback) =>  {
+    var query = { _id: id };
+    design.find(query, function (err, d) {
+        if(d.length>0) {
+            d[0].designUsed='yes';
+            d[0].save(callback); 
+        }
+        })
+}
+
 module.exports.getDesignsList = (callback, limit) => {
 	design.find(callback).limit(limit);
 }
