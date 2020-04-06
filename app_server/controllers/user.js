@@ -68,6 +68,19 @@ module.exports.updateProfileAdmin = (data, options, callback) => {
     user.findOneAndUpdate(query, update, options, callback);
 }
 
+module.exports.updateProfileCustomer = (data, options, callback) => {
+    var query = {_id: data._id};
+    var update = {
+        firstname: data.firstname,
+        lastname:data.lastname,
+        cell: data.cell,
+        address: data.address,
+        postcode: data.postcode,
+        gender: data.gender
+    }
+    user.findOneAndUpdate(query, update, options, callback);
+}
+
 module.exports.updatePassword = (data, res, callback) => {
     var query = {_id: data._id};
     var record=new user();

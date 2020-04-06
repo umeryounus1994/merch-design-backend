@@ -122,6 +122,20 @@ router.post('/updateProfileAdmin', function (req, res) {
     });
 });
 
+router.post('/updateProfileCustomer', function (req, res) {
+    user.updateProfileCustomer(req.body, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true};
+        return res.json(result);
+    });
+});
+
 
 router.post('/updatePassword', function (req, res) {
     user.updatePassword(req.body, res, function (err, admin) {

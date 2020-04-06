@@ -23,25 +23,23 @@ router.post('/createOrder', function (req, res) {
                     status: false
                 });
             }
-            var result = {status : true, message: "Order Created Successfully"};
-            return res.json(result);
-            // const promiseArr = [];
-            // return new Promise((resolve, reject) => {
-            //     orderDetails.forEach(el => {
-            //       promiseArr.push(
-            //         new Promise((resolvve, rejectt) => {
-            //             const dataUpdate = {
-            //                 _id: el.designId,
-            //             }
-            //             design.updateDesignStatus(dataUpdate, function (err, design) {
-            //                 resolvve(el);
-            //             });
-            //         }))
-            //     });
-            //     return Promise.all(promiseArr).then(ress => {
-                   
-            //     });
-            // });
+           
+            const promiseArr = [];
+            return new Promise((resolve, reject) => {
+                orderDetails.forEach(el => {
+                  promiseArr.push(
+                    new Promise((resolvve, rejectt) => {
+                 
+                        design.updateDesignStatus(el.designId, function (err, design) {
+                            resolvve(el);
+                        });
+                    }))
+                });
+                return Promise.all(promiseArr).then(ress => {
+                    var result = {status : true, message: "Order Created Successfully"};
+                    return res.json(result);
+                });
+            });
 
 
         });

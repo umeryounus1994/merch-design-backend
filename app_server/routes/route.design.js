@@ -182,5 +182,25 @@ router.get('/deleteSourceImages/:designId/:sourceImageId', function (req, res) {
     });
 });
 
+router.post('/filerDesign', function (req, res) {
+    const body = req.body;
+    designs.filerDesign(body,function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var desigData = [];
+        result.forEach(el => {
+            if(parseInt(el.designPrice) >= body.minPrice && parseInt(el.designPrice) <= body.maxPrice) {
+                desigData.push(el);
+            }
+        });
+        var reslt = {status : true, data: desigData};
+        return res.json(reslt);
+    });
+
+});
+
 
 module.exports = router;

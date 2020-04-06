@@ -93,3 +93,8 @@ module.exports.deleteActualImage = (designId,actualImageId,callback) => {
 module.exports.deleteSourceImage = (designId,sourceImageId,callback) => {
 	design.findByIdAndUpdate(designId, { $pull: { 'sourceFiles': {_id: sourceImageId}}}, callback );
 }
+
+module.exports.filerDesign = (data ,callback) =>  {
+    
+    design.find({designUsed: 'no'}, callback);
+}
