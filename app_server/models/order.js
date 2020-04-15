@@ -17,6 +17,7 @@ const orderSchema = new schema({
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     status: String,
     orderDetails: [orderDetails],
+    date : String,
     createdDate: {
         type: Date,
         default: Date.now

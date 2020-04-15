@@ -17,7 +17,7 @@ router.post('/signup',profilePicture.fields([{
         body.profilepicture = req.files.profilepicture[0].filename.toLowerCase() ;
     }
 
-    user.addUser(body, function (err, admin) {
+    user.addUser(body, res, function (err, admin) {
         if (err) {
             console.log(err);
             return res.json({
@@ -30,6 +30,22 @@ router.post('/signup',profilePicture.fields([{
     });
 
 });
+
+router.post('/socialSignup', function (req, res) {
+    var body = req.body;
+    user.addUserSocial(body, res, function (err, user) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true, data: user};
+        return res.json(result);
+    });
+  });
+
 
 router.get('/list_customers', function (req, res) {
     user.getCustomerList(function (err, result) {
@@ -74,6 +90,20 @@ router.get('/getUser/:id', function (req, res) {
 
 router.post('/changeStatus', function (req, res) {
     user.changeStatus(req.body._id, req.body.status, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true};
+        return res.json(result);
+    });
+});
+
+router.post('/expireSubscription', function (req, res) {
+    user.expireSubscription(req.body.userId, function (err, admin) {
         if (err) {
             console.log(err);
             return res.json({

@@ -40,22 +40,53 @@ module.exports.getUserById = (id ,callback) =>  {
 }
 
 // Add User 
-module.exports.addUser = (data ,callback) =>  {
-    record=new user();
-    record.firstname=data.firstname;
-    record.lastname=data.lastname;
-    record.cell=data.cell;
-    record.gender=data.gender;
-    record.address=data.address;
-    record.postcode=data.postcode;
-    record.profilepicture=data.profilepicture;
-    record.role=data.role;
-    record.logintype=data.logintype;
-    record.status=data.status;
-    record.email=data.email;
-    record.password=record.hashPassword(data.password);
-    record.subscriptionData = [];
-    record.save(callback);
+module.exports.addUser = (data , res,callback) =>  {
+    user.findOne({email:data.email, role: data.role},function(err,result)
+    {
+        if(result) {
+            return res.json({message:"User with same email and Login Type already exist",status:false});
+        }
+        record=new user();
+        record.firstname=data.firstname;
+        record.lastname=data.lastname;
+        record.cell=data.cell;
+        record.gender=data.gender;
+        record.address=data.address;
+        record.postcode=data.postcode;
+        record.profilepicture=data.profilepicture;
+        record.role=data.role;
+        record.logintype=data.logintype;
+        record.status=data.status;
+        record.email=data.email;
+        record.password=record.hashPassword(data.password);
+        record.subscriptionData = [];
+        record.save(callback);
+    });
+}
+
+// Add Social User 
+module.exports.addUserSocial = (data , res,callback) =>  {
+    user.findOne({email:data.email, role: data.role},function(err,result)
+    {
+        if(result) {
+            return res.json({data: result,status:true});
+        }
+        record=new user();
+        record.firstname=data.firstname;
+        record.lastname=data.lastname;
+        record.cell=data.cell;
+        record.gender=data.gender;
+        record.address=data.address;
+        record.postcode=data.postcode;
+        record.profilepicture=data.profilepicture;
+        record.role=data.role;
+        record.logintype=data.logintype;
+        record.status=data.status;
+        record.email=data.email;
+        record.password=data.password;
+        record.subscriptionData = [];
+        record.save(callback);
+    });
 }
 
 // Update User 
@@ -111,6 +142,14 @@ module.exports.changeStatus = (id, status, options, callback) => {
     var query = {_id: id};
     var update = {
         status: status
+    }
+    user.findOneAndUpdate(query, update, options, callback);
+}
+
+module.exports.expireSubscription = (id, options, callback) => {
+    var query = {_id: id};
+    var update = {
+        subscription: 'expired'
     }
     user.findOneAndUpdate(query, update, options, callback);
 }

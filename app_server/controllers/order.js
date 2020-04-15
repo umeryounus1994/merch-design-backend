@@ -1,11 +1,16 @@
 var order=require('../models/order.js');
 
 module.exports.createOrder = (data ,callback) =>  {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
     record=new order();
     record.totalAmount=data.totalAmount;
     record.createdBy=data.createdBy;
     record.status = data.status;
     record.orderDetails = data.orderDetails;
+    record.date = yyyy + "-" + mm + "-" + dd;
     record.save(callback); 
 }
 

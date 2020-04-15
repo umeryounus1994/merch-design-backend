@@ -65,7 +65,8 @@ module.exports.updateDesignStatus = (id ,callback) =>  {
 }
 
 module.exports.getDesignsList = (callback, limit) => {
-	design.find(callback).limit(limit);
+    var query = {designUsed: 'yes', designStatus: 'active'}
+	design.find(query,callback).limit(limit);
 }
 
 module.exports.getDesignsListHome = (callback, limit) => {
