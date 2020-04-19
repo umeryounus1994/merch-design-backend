@@ -1,5 +1,5 @@
 var design=require('../models/design.js');
-
+var category=require('../models/categories.js');
 
 module.exports.addDesign = (data ,callback) =>  {
     record=new design();
@@ -10,10 +10,34 @@ module.exports.addDesign = (data ,callback) =>  {
     record.designUsed=data.designUsed;
     record.createdBy=data.createdBy;
     record.logo=data.logo;
+    record.categoryId=data.categoryId;
     record.sourceFiles=data.sourceFiles;
     record.actualDesign=data.actualDesign;
     record.designPrice = data.designPrice;
     record.save(callback); 
+}
+
+module.exports.addCategory = (data ,callback) =>  {
+    record=new category();
+    record.categoryName=data.categoryName;
+    record.save(callback); 
+}
+
+module.exports.editCategory = (data ,callback) =>  {
+    var query = { _id: data.categoryId };
+    category.find(query, function (err, d) {
+        if(d.length>0) {
+            d[0].categoryName=data.categoryName;
+            d[0].save(callback); 
+        }
+    });
+}
+module.exports.deleteCategory = (categoryId,callback) => {
+	var query = {_id: categoryId};
+    category.remove(query, callback);
+}
+module.exports.getCategories = (callback, limit) => {
+	category.find(callback).limit(limit);
 }
 
 module.exports.editDesign = (data ,callback) =>  {
@@ -47,6 +71,7 @@ module.exports.editDesign = (data ,callback) =>  {
             d[0].sourceFiles=sourceFiles;
             d[0].actualDesign=actualDesign;
             d[0].designPrice = data.designPrice;
+            d[0].categoryId=data.categoryId;
             d[0].save(callback); 
        
         }
@@ -66,16 +91,20 @@ module.exports.updateDesignStatus = (id ,callback) =>  {
 
 module.exports.getDesignsList = (callback, limit) => {
     var query = {designUsed: 'yes', designStatus: 'active'}
-	design.find(query,callback).limit(limit);
+	design.find(query,callback).populate("categoryId").limit(limit);
 }
 
 module.exports.getDesignsListHome = (callback, limit) => {
     var query = {designUsed: 'no', designStatus: 'active'}
-	design.find(query,callback).limit(limit);
+	design.find(query,callback).populate("categoryId").limit(limit);
 }
 
 module.exports.getSingleDesign = (designId,callback) => {
-	design.find({_id: designId},callback);
+	design.find({_id: designId},callback).populate("categoryId");
+}
+module.exports.deleteDesign = (designId,callback) => {
+	var query = {_id: designId};
+    design.remove(query, callback);
 }
 
 module.exports.deleteLogo = async function(designId,callback) {
@@ -97,5 +126,5 @@ module.exports.deleteSourceImage = (designId,sourceImageId,callback) => {
 
 module.exports.filerDesign = (data ,callback) =>  {
     
-    design.find({designUsed: 'no'}, callback);
+    design.find({designUsed: 'no'}, callback).populate("categoryId");
 }

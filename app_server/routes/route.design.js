@@ -24,11 +24,14 @@ router.post('/add',designsUpload.fields([
            obj['imagePath'] = element.filename;
            actualDesign.push(obj);
         })
-        req.files.sourceFiles.forEach(element => {
-            var obj={};
-            obj['imagePath'] = element.filename;
-            sourceFiles.push(obj);
-         });
+        if(body.sFiles == 'yes') {
+            req.files.sourceFiles.forEach(element => {
+                var obj={};
+                obj['imagePath'] = element.filename;
+                sourceFiles.push(obj);
+             });
+        }
+ 
          body.actualDesign = actualDesign;
          body.sourceFiles = sourceFiles;
 
@@ -44,6 +47,57 @@ router.post('/add',designsUpload.fields([
             return res.json(result);
         });
   });
+  router.post('/addCategory', function (req, res) {
+    const body = req.body;
+    designs.addCategory(body, function (err, design) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true, message: "Design Added Successfully"};
+        return res.json(result);
+    });
+    });
+    router.post('/editCategory', function (req, res) {
+        const body = req.body;
+        designs.editCategory(body, function (err, design) {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    Message: "Error in Connecting to DB",
+                    status: false
+                });
+            }
+            var result = {status : true, message: "Design Added Successfully"};
+            return res.json(result);
+        });
+        });
+        router.get('/deleteCategory/:id', function (req, res) {
+            designs.deleteCategory(req.params.id,function (err, result) {
+                if (err)
+                    return res.json({
+                        Message: "Error in Connecting to DB",
+                        status: false
+                    });
+                var reslt = {status : true};
+                return res.json(reslt);
+            });
+        });
+        router.get('/listCategories', function (req, res) {
+            designs.getCategories(function (err, result) {
+                if (err)
+                    return res.json({
+                        Message: "Error in Connecting to DB",
+                        status: false
+                    });
+                var reslt = {status : true, data: result};
+                return res.json(reslt);
+        
+            });
+        });
 
 router.post('/edit',designsUpload.fields([
     {
@@ -145,6 +199,17 @@ router.get('/get_single_design/:designId', function (req, res) {
                 status: false
             });
         var reslt = {status : true, data: result};
+        return res.json(reslt);
+    });
+});
+router.get('/delete_design/:designId', function (req, res) {
+    designs.deleteDesign(req.params.designId,function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true};
         return res.json(reslt);
     });
 });

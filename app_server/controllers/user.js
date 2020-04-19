@@ -1,5 +1,5 @@
 var user=require('../models/user.js');
-
+var sales=require('../models/sale.js');
 
 // Get Admins
 module.exports.getAdmin = (callback, limit) => {
@@ -32,6 +32,9 @@ module.exports.login = (email,password,res) => {
 module.exports.getCustomerList = (callback, limit) => {
     var query = { 'role': 'customer' };
 	user.find(query,callback).limit(limit);
+}
+module.exports.getSalesList = (callback, limit) => {
+	sales.find(callback).limit(limit);
 }
 
 // Get Admin By Id
@@ -87,6 +90,15 @@ module.exports.addUserSocial = (data , res,callback) =>  {
         record.subscriptionData = [];
         record.save(callback);
     });
+}
+
+module.exports.updateSale = (data, options, callback) => {
+    var query = {_id: data._id};
+    var update = {
+        saleAmount: data.saleAmount,
+        status:data.status
+    }
+    sales.findOneAndUpdate(query, update, options, callback);
 }
 
 // Update User 
@@ -169,6 +181,16 @@ module.exports.subscriptionAdd = (data, options, callback) => {
         subscriptionData: subData
     }
     user.findOneAndUpdate(query, upData, options, callback);
+}
+
+module.exports.subscriptionUpdate = (data, callback) => {
+    user.find({_id: data.id}, function (err, d) {
+        if(d.length > 0) {
+            d[0].subscription = 'yes';
+            d[0].subscriptionData[0].expiryDate= data.expiryDate;
+            d[0].save(callback);
+        }
+    })
 }
 // Delete User   
 module.exports.removeUser = (id, callback) => {

@@ -60,6 +60,19 @@ router.get('/list_customers', function (req, res) {
     });
 
 });
+router.get('/list_sales', function (req, res) {
+    user.getSalesList(function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true, data: result};
+        return res.json(reslt);
+
+    });
+
+});
 
 router.get('/deleteUser/:id', function (req, res) {
     user.removeUser(req.params.id,function (err, result) {
@@ -90,6 +103,19 @@ router.get('/getUser/:id', function (req, res) {
 
 router.post('/changeStatus', function (req, res) {
     user.changeStatus(req.body._id, req.body.status, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true};
+        return res.json(result);
+    });
+});
+router.post('/updateSale', function (req, res) {
+    user.updateSale(req.body, function (err, admin) {
         if (err) {
             console.log(err);
             return res.json({
@@ -135,6 +161,19 @@ router.post('/subscriptionAdd', function (req, res) {
             return res.json(reslt);
     
         });
+    });
+});
+router.post('/subscriptionUpdate', function (req, res) {
+    user.subscriptionUpdate(req.body, function (err, reslt) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var reslt = {status : true};
+            return res.json(reslt);
     });
 });
 
