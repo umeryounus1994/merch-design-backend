@@ -191,6 +191,19 @@ router.get('/list_designs_home', function (req, res) {
 
     });
 });
+
+router.get('/private_designs', function (req, res) {
+    designs.GetPrivateDesigns(function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true, data: result};
+        return res.json(reslt);
+
+    });
+});
 router.get('/get_single_design/:designId', function (req, res) {
     designs.getSingleDesign(req.params.designId,function (err, result) {
         if (err)
@@ -265,6 +278,31 @@ router.post('/filerDesign', function (req, res) {
         return res.json(reslt);
     });
 
+});
+
+router.post('/mark_design_public', function (req, res) {
+    const body = req.body;
+    designs.markDesignPublic(body,function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true};
+        return res.json(reslt);
+    });
+});
+
+router.get('/mark_all_design_public', function (req, res) {
+    designs.markAllDesignPublic(function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true};
+        return res.json(reslt);
+    });
 });
 
 

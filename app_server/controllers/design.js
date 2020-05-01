@@ -99,6 +99,11 @@ module.exports.getDesignsListHome = (callback, limit) => {
 	design.find(query,callback).populate("categoryId").limit(limit);
 }
 
+module.exports.GetPrivateDesigns = (callback, limit) => {
+    var query = {designUsed: 'no', designStatus: 'private'}
+	design.find(query,callback).populate("categoryId").limit(limit);
+}
+
 module.exports.getSingleDesign = (designId,callback) => {
 	design.find({_id: designId},callback).populate("categoryId");
 }
@@ -127,4 +132,18 @@ module.exports.deleteSourceImage = (designId,sourceImageId,callback) => {
 module.exports.filerDesign = (data ,callback) =>  {
     
     design.find({designUsed: 'no'}, callback).populate("categoryId");
+}
+
+module.exports.markDesignPublic = (data ,callback) =>  {
+    var query = { _id: data.designId };
+    design.find(query, function (err, d) {
+        if(d.length>0) {
+            d[0].launchDateTime= data.launchDateTime;
+            d[0].designStatus = data.designStatus;
+            d[0].save(callback); 
+        }
+        })
+}
+module.exports.markAllDesignPublic = (callback) =>  {
+    design.updateMany({},{ $set: { designStatus: "active" } }, callback)
 }
