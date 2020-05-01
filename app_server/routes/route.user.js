@@ -3,7 +3,8 @@ var router = express.Router();
 
 const profilePicture = require("../../config/profile_image");
 var user = require('../controllers/user.js');
-
+var userModel=require('../models/user.js');
+var emailAccount =require('../../emails/account.js');
 
 
 //Add Admin
@@ -294,6 +295,46 @@ router.post('/login', function (req, res) {
     let email = req.body.email;
     let password = req.body.password;
     user.login(email, password, res);
+});
+
+router.post('/resetPassword', function (req, res) {
+    let id = req.body.id;
+    var query = {_id: id};
+    let record=new userModel();
+    userModel.findOne(query).
+    exec(function(err,result)
+    {
+        if (err)
+		{
+			return res.json({message:"Error in Connecting to DB",status:false});
+		}
+        else if(result)
+        {
+            let password = Math.random() * (1000000 - 100000) + 100000;
+            password = Math.ceil(password);
+            console.log(password);
+            
+            let customerform = {
+                password : password,
+                originalPassword: password,
+                id: id
+            }
+
+            user.resetPassword(customerform, function (err, customer) {
+                if (err) {
+                    return res.status(500).json({
+                        Message: "Error in Connecting to DB",
+                        status: false
+                    });
+                }
+                else if(customer){
+                    emailAccount.sendEmail(result.email,password)
+                    return res.json({Message:"Password Updated, Kindly Check Email",status:true});
+                }
+        
+            });
+        }
+    });
 });
 
 

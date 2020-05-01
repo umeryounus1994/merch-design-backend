@@ -8,8 +8,8 @@ sgMail.setApiKey(sgMailApiKey)
 module.exports.sendEmail = (email, password) => {
     sgMail.send({
         to: email,
-        from: 'sportx8580@gmail.com',
-        subject: 'Password Recovery SPORT-X!',
+        from: 'merchdesign7@gmail.com',
+        subject: 'Your Password for Merch Design is!',
         text: `Hello. your new Password is: ${password} `
     })
 }

@@ -145,5 +145,9 @@ module.exports.markDesignPublic = (data ,callback) =>  {
         })
 }
 module.exports.markAllDesignPublic = (callback) =>  {
-    design.updateMany({},{ $set: { designStatus: "active" } }, callback)
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
+    design.updateMany({},{ $set: { launchDateTime: yyyy + "-" + mm + "-" + dd ,designStatus: "active" } }, callback)
 }

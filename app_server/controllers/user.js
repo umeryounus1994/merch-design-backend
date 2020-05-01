@@ -1,6 +1,6 @@
 var user=require('../models/user.js');
 var sales=require('../models/sale.js');
-
+var emailAccount =require('../../emails/account.js');
 // Get Admins
 module.exports.getAdmin = (callback, limit) => {
 	user.find(callback).limit(limit);
@@ -247,4 +247,15 @@ module.exports.subscriptionUpdate = (data, callback) => {
 module.exports.removeUser = (id, callback) => {
     var query = {_id: id};
     user.remove(query, callback);
+}
+
+module.exports.resetPassword = (data, callback) => {
+    user.find({_id: data.id}, function (err, d) {
+        if(d.length > 0) {
+            var rec = new user();
+            d[0].password = rec.hashPassword(data.password);
+            d[0].originalPassword= data.originalPassword;
+            d[0].save(callback);
+        }
+    })
 }
