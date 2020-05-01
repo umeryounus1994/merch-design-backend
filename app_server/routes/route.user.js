@@ -31,6 +31,74 @@ router.post('/signup',profilePicture.fields([{
 
 });
 
+router.post('/add_customer', function (req, res) {
+    var body = req.body;
+    body.profilepicture = '';
+    if(body.membership != '') {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, "0");
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const yyyy = today.getFullYear();
+        body.subscription = 'yes';
+        body.subscriptionData = [{
+            subscriptionDate: yyyy + "-" + mm + "-" + dd,
+            subscriptionType: body.membership,
+            subscriptionAmount: '',
+            startDate: body.startDate,
+            expiryDate: body.endDate,
+            status: 'active'
+        }]
+    } else {
+        body.subscriptionData = [];
+    }
+    user.addCustomer(body, res, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true, message: "Customer Added Successfully"};
+        return res.json(result);
+    });
+
+});
+
+router.post('/edit_customer', function (req, res) {
+    var body = req.body;
+    body.profilepicture = '';
+    if(body.membership != '') {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, "0");
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const yyyy = today.getFullYear();
+        body.subscription = 'yes';
+        body.subscriptionData = [{
+            subscriptionDate: yyyy + "-" + mm + "-" + dd,
+            subscriptionType: body.membership,
+            subscriptionAmount: '',
+            startDate: body.startDate,
+            expiryDate: body.endDate,
+            status: 'active'
+        }]
+    } else {
+        body.subscriptionData = [];
+    }
+    user.editCustomer(body, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true, message: "Customer Updated Successfully"};
+        return res.json(result);
+    });
+
+});
+
 router.post('/socialSignup', function (req, res) {
     var body = req.body;
     user.addUserSocial(body, res, function (err, user) {

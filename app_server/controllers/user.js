@@ -67,6 +67,52 @@ module.exports.addUser = (data , res,callback) =>  {
     });
 }
 
+
+module.exports.addCustomer = (data , res,callback) =>  {
+    user.findOne({email:data.email},function(err,result)
+    {
+        if(result) {
+            return res.json({message:"User with same email already exist",status:false});
+        }
+        record=new user();
+        record.firstname=data.firstname;
+        record.lastname=data.lastname;
+        record.cell=data.cell;
+        record.gender=data.gender;
+        record.address=data.address;
+        record.postcode=data.postcode;
+        record.profilepicture=data.profilepicture;
+        record.role=data.role;
+        record.logintype=data.logintype;
+        record.status=data.status;
+        record.email=data.email;
+        record.subscription=data.subscription;
+        record.password=record.hashPassword(data.password);
+        record.originalPassword=data.password;
+        record.subscriptionData = data.subscriptionData;
+        record.save(callback);
+    });
+}
+
+module.exports.editCustomer = (data ,callback) =>  {
+  
+        var query = {_id: data.userId}; 
+        var rec = new user();
+        var record = {};
+        record.firstname=data.firstname;
+        record.lastname=data.lastname;
+        record.cell=data.cell;
+        record.gender=data.gender;
+        record.address=data.address;
+        record.postcode=data.postcode;
+        record.profilepicture=data.profilepicture;
+        record.email=data.email;
+        record.subscription=data.subscription;
+        record.password=rec.hashPassword(data.password);
+        record.originalPassword=data.password;
+        record.subscriptionData = data.subscriptionData;
+        user.findOneAndUpdate(query, record, callback);
+}
 // Add Social User 
 module.exports.addUserSocial = (data , res,callback) =>  {
     user.findOne({email:data.email, role: data.role},function(err,result)
@@ -169,7 +215,12 @@ module.exports.expireSubscription = (id, options, callback) => {
 
 module.exports.subscriptionAdd = (data, options, callback) => {
     var query = {_id: data.userId};
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
     var subData = [{
+        startDate: yyyy + "-" + mm + "-" + dd,
         subscriptionDate: data.subscriptionDate,
         subscriptionType: data.subscriptionType,
         subscriptionAmount: data.subscriptionAmount,

@@ -9,6 +9,7 @@ var sucbscriptionData = mongoose.Schema({
     subscriptionDate : String,
     subscriptionType: String,
     subscriptionAmount: Number,
+    startDate: String,
     expiryDate: String,
     status: String,
     createdDate: {
@@ -28,6 +29,9 @@ const userSchema = new schema({
         type:String
     },
     password:{
+        type:String
+    },
+    originalPassword:{
         type:String
     },
     cell: {
