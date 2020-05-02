@@ -1,6 +1,8 @@
 var user=require('../models/user.js');
 var sales=require('../models/sale.js');
-var emailAccount =require('../../emails/account.js');
+var reward=require('../models/rewardpoints.js');
+
+var coupon=require('../models/coupons.js');
 // Get Admins
 module.exports.getAdmin = (callback, limit) => {
 	user.find(callback).limit(limit);
@@ -35,6 +37,14 @@ module.exports.getCustomerList = (callback, limit) => {
 }
 module.exports.getSalesList = (callback, limit) => {
 	sales.find(callback).limit(limit);
+}
+
+module.exports.getRewardList = (callback, limit) => {
+	reward.find(callback).limit(limit);
+}
+
+module.exports.getCoupon = (callback, limit) => {
+	coupon.find(callback).limit(limit);
 }
 
 // Get Admin By Id
@@ -146,7 +156,40 @@ module.exports.updateSale = (data, options, callback) => {
     }
     sales.findOneAndUpdate(query, update, options, callback);
 }
+module.exports.updateRewardPoints = (data, options, callback) => {
+    var query = {_id: data._id};
+    var update = {
+        rewardPoints: data.rewardPoints,
+    }
+    user.findOneAndUpdate(query, update, options, callback);
+}
 
+module.exports.updateReward = (data, options, callback) => {
+    var query = {_id: data._id};
+    var update = {
+        rewardAmount: data.rewardAmount,
+        rewardStatus:data.rewardStatus
+    }
+    reward.findOneAndUpdate(query, update, options, callback);
+}
+
+module.exports.updateCoupon = (data, options, callback) => {
+    var query = {_id: data._id};
+    var update = {
+        couponCode: data.couponCode,
+        discountAmount:data.discountAmount,
+        status: data.status
+    }
+    coupon.findOneAndUpdate(query, update, options, callback);
+}
+
+module.exports.changeCouponStatus = (data, options, callback) => {
+    var query = {_id: data._id};
+    var update = {
+        status: 'no'
+    }
+    coupon.findOneAndUpdate(query, update, options, callback);
+}
 // Update User 
 module.exports.updateProfileAdmin = (data, options, callback) => {
     var query = {_id: data._id};

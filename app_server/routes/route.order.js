@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var order = require('../controllers/order.js');
 var design = require('../controllers/design.js');
+var user = require('../controllers/user.js');
 
 router.post('/createOrder', function (req, res) {
         const body = req.body;
@@ -15,6 +16,10 @@ router.post('/createOrder', function (req, res) {
             orderDetails.push(data);
         });
         body.orderDetails = orderDetails;
+        var userData = {
+            rewardPoints: body.rewardPoints,
+            _id: body.createdBy
+        };
         order.createOrder(body, function (err, order) {
             if (err) {
                 console.log(err);
@@ -23,6 +28,30 @@ router.post('/createOrder', function (req, res) {
                     status: false
                 });
             }
+            user.updateRewardPoints(userData, function (err, order) {
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        Message: "Error in Connecting to DB",
+                        status: false
+                    });
+                }
+            })
+            if(body.couponId != null) {
+                var cData = {
+                    _id : body.couponId
+                }
+                user.changeCouponStatus(cData,function (err, order) {
+                    if (err) {
+                        console.log(err);
+                        return res.json({
+                            Message: "Error in Connecting to DB",
+                            status: false
+                        });
+                    }
+                })
+            }
+     
            
             const promiseArr = [];
             return new Promise((resolve, reject) => {

@@ -50,6 +50,7 @@ router.post('/add_customer', function (req, res) {
             status: 'active'
         }]
     } else {
+        body.subscription = 'no';
         body.subscriptionData = [];
     }
     user.addCustomer(body, res, function (err, admin) {
@@ -84,6 +85,7 @@ router.post('/edit_customer', function (req, res) {
             status: 'active'
         }]
     } else {
+        body.subscription = 'no';
         body.subscriptionData = [];
     }
     user.editCustomer(body, function (err, admin) {
@@ -143,6 +145,34 @@ router.get('/list_sales', function (req, res) {
 
 });
 
+router.get('/list_reward_points', function (req, res) {
+    user.getRewardList(function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true, data: result};
+        return res.json(reslt);
+
+    });
+
+});
+
+router.get('/list_coupon', function (req, res) {
+    user.getCoupon(function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true, data: result};
+        return res.json(reslt);
+
+    });
+
+});
+
 router.get('/deleteUser/:id', function (req, res) {
     user.removeUser(req.params.id,function (err, result) {
         if (err)
@@ -185,6 +215,34 @@ router.post('/changeStatus', function (req, res) {
 });
 router.post('/updateSale', function (req, res) {
     user.updateSale(req.body, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true};
+        return res.json(result);
+    });
+});
+
+router.post('/updateReward', function (req, res) {
+    user.updateReward(req.body, function (err, admin) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        var result = {status : true};
+        return res.json(result);
+    });
+});
+
+router.post('/updateCoupon', function (req, res) {
+    user.updateCoupon(req.body, function (err, admin) {
         if (err) {
             console.log(err);
             return res.json({

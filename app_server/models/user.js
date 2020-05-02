@@ -62,6 +62,10 @@ const userSchema = new schema({
         type: String,
         default: 'no'
     },
+    rewardPoints: {
+        type: Number,
+        default: 0
+    },
     subscriptionData: [sucbscriptionData],
     createdDate: {
         type: Date,
