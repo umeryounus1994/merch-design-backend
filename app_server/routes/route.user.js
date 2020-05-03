@@ -200,8 +200,8 @@ router.get('/getUser/:id', function (req, res) {
 
 });
 
-router.get('/checkCouponUsed/:id', function (req, res) {
-    user.checkCouponUsed(req.params.id,function (err, result) {
+router.post('/checkCouponUsed', function (req, res) {
+    user.checkCouponUsed(req.body,function (err, result) {
         if (err)
             return res.json({
                 Message: "Error in Connecting to DB",

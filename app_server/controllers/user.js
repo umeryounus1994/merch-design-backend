@@ -52,8 +52,8 @@ module.exports.getUserById = (id ,callback) =>  {
 	user.findById(id, callback);
 }
 
-module.exports.checkCouponUsed = (id ,callback) =>  {
-    var query =  {coupon: id};
+module.exports.checkCouponUsed = (data ,callback) =>  {
+    var query =  {coupon: data.couponId, createdBy: data.userId};
 	order.find(query, callback);
 }
 
