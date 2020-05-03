@@ -7,6 +7,7 @@ module.exports.createOrder = (data ,callback) =>  {
     const yyyy = today.getFullYear();
     record=new order();
     record.totalAmount=data.totalAmount;
+    record.coupon = data.couponId;
     record.createdBy=data.createdBy;
     record.status = data.status;
     record.orderDetails = data.orderDetails;

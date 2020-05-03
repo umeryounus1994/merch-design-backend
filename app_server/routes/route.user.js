@@ -200,6 +200,20 @@ router.get('/getUser/:id', function (req, res) {
 
 });
 
+router.get('/checkCouponUsed/:id', function (req, res) {
+    user.checkCouponUsed(req.params.id,function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true, data: result};
+        return res.json(reslt);
+
+    });
+
+});
+
 router.post('/changeStatus', function (req, res) {
     user.changeStatus(req.body._id, req.body.status, function (err, admin) {
         if (err) {

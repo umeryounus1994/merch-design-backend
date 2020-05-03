@@ -1,7 +1,7 @@
 var user=require('../models/user.js');
 var sales=require('../models/sale.js');
 var reward=require('../models/rewardpoints.js');
-
+var order=require('../models/order.js');
 var coupon=require('../models/coupons.js');
 // Get Admins
 module.exports.getAdmin = (callback, limit) => {
@@ -50,6 +50,11 @@ module.exports.getCoupon = (callback, limit) => {
 // Get Admin By Id
 module.exports.getUserById = (id ,callback) =>  {
 	user.findById(id, callback);
+}
+
+module.exports.checkCouponUsed = (id ,callback) =>  {
+    var query =  {coupon: id};
+	order.find(query, callback);
 }
 
 // Add User 

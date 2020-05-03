@@ -37,20 +37,20 @@ router.post('/createOrder', function (req, res) {
                     });
                 }
             })
-            if(body.couponId != null) {
-                var cData = {
-                    _id : body.couponId
-                }
-                user.changeCouponStatus(cData,function (err, order) {
-                    if (err) {
-                        console.log(err);
-                        return res.json({
-                            Message: "Error in Connecting to DB",
-                            status: false
-                        });
-                    }
-                })
-            }
+            // if(body.couponId != null) {
+            //     var cData = {
+            //         _id : body.couponId
+            //     }
+            //     user.changeCouponStatus(cData,function (err, order) {
+            //         if (err) {
+            //             console.log(err);
+            //             return res.json({
+            //                 Message: "Error in Connecting to DB",
+            //                 status: false
+            //             });
+            //         }
+            //     })
+            // }
      
            
             const promiseArr = [];

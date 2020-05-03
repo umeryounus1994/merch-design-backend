@@ -16,6 +16,10 @@ const orderSchema = new schema({
     totalAmount: String,
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     status: String,
+    coupon: {
+        type: String,
+        default : ''
+    },
     orderDetails: [orderDetails],
     date : String,
     createdDate: {
