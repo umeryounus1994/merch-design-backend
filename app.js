@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+var https = require('https')
 global.__basedir = __dirname;
 var hsp = require('heroku-self-ping');
 

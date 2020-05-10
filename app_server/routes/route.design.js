@@ -15,19 +15,19 @@ router.post('/add',designsUpload.fields([
     {
     name: 'sourceFiles', maxCount: 20
     }]), function (req, res) {
-        const body = req.body;
-        body.logo = req.files.logo[0].filename;
+        var body = req.body;
+        body.logo = req.files.logo[0].location;
         var actualDesign = [];
         var sourceFiles = [];
         req.files.actualDesign.forEach(element => {
            var obj={};
-           obj['imagePath'] = element.filename;
+           obj['imagePath'] = element.location;
            actualDesign.push(obj);
         })
         if(body.sFiles == 'yes') {
             req.files.sourceFiles.forEach(element => {
                 var obj={};
-                obj['imagePath'] = element.filename;
+                obj['imagePath'] = element.location;
                 sourceFiles.push(obj);
              });
         }
@@ -111,7 +111,7 @@ router.post('/edit',designsUpload.fields([
     }]), function (req, res) {
         const body = req.body;
         if(body.logoImg == 'yes') {
-            body.logo = req.files.logo[0].filename;
+            body.logo = req.files.logo[0].location;
         } else {
             body.logo = '';
         }
@@ -120,7 +120,7 @@ router.post('/edit',designsUpload.fields([
         if(body.actualImg == "yes") {
             req.files.actualDesign.forEach(element => {
                 var obj={};
-                obj['imagePath'] = element.filename;
+                obj['imagePath'] = element.location;
                 actualDesign.push(obj);
              })
              body.actualDesign = actualDesign;
@@ -130,7 +130,7 @@ router.post('/edit',designsUpload.fields([
         if(body.sourceImg == "yes") {
             req.files.sourceFiles.forEach(element => {
                 var obj={};
-                obj['imagePath'] = element.filename;
+                obj['imagePath'] = element.location;
                 sourceFiles.push(obj);
              });
              

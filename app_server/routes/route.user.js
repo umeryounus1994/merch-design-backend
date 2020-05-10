@@ -15,7 +15,7 @@ router.post('/signup',profilePicture.fields([{
     if(JSON.stringify(req.files) === '{}') {
         body.profilepicture = '';
     } else {
-        body.profilepicture = req.files.profilepicture[0].filename.toLowerCase() ;
+        body.profilepicture = req.files.profilepicture[0].location;
     }
 
     user.addUser(body, res, function (err, admin) {
