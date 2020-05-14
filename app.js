@@ -4,9 +4,24 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
-var https = require('https')
+// var https = require('https')
 global.__basedir = __dirname;
-var hsp = require('heroku-self-ping');
+// var hsp = require('heroku-self-ping');
+
+
+var https = require('https');
+var fs = require('fs');
+
+var key = fs.readFileSync('private.key');
+var cert = fs.readFileSync( 'certificate.crt' );
+var ca = fs.readFileSync( 'ca_bundle.crt' );
+
+var options = {
+  key: key,
+  cert: cert,
+  ca: ca
+};
+
 
 // routes
 var routeUser = require('./app_server/routes/route.user.js');
@@ -18,13 +33,13 @@ var cors = require('cors')
 var app = express();
 app.use(cors());
 
-hsp.default(`https://${process.env.app_url}.herokuapp.com`);
+// hsp.default(`https://${process.env.app_url}.herokuapp.com`);
 
 // app.use(express.static(__dirname+'/client'));
 
 
 // Set up mongoose connection
-let dev_db_url = 'mongodb://localhost:27017/merchdesign';
+let dev_db_url = 'mongodb+srv://merchuser:merchpassword@merchdesign-gbp8n.mongodb.net/merchdb';
 const mongoDB = process.env.dev_db_url ||  dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => console.log('MongoDB connected…'))
 .catch(err => console.log(err));
@@ -74,13 +89,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
 
-app.listen(port, () => {
-    console.log('Server is up and running on port number ' + port);
-});
+// app.listen(port, () => {
+//     console.log('Server is up and running on port number ' + port);
+// });
 
-
+https.createServer(options, app).listen(443);
 
 module.exports = app;
 
