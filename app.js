@@ -89,13 +89,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var port = process.env.PORT || 80;
+// var port = process.env.PORT || 80;
+var port = process.env.PORT || 3000;
 
-// app.listen(port, () => {
-//     console.log('Server is up and running on port number ' + port);
-// });
+app.listen(port, () => {
+    console.log('Server is up and running on port number ' + port);
+});
 
-https.createServer(options, app).listen(443);
+
+// https.createServer(options, app).listen(443);
 
 module.exports = app;
 
