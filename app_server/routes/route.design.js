@@ -293,8 +293,9 @@ router.post('/mark_design_public', function (req, res) {
     });
 });
 
-router.get('/mark_all_design_public', function (req, res) {
-    designs.markAllDesignPublic(function (err, result) {
+router.post('/mark_all_design_public', function (req, res) {
+    const body = req.body;
+    designs.markAllDesignPublic(body,function (err, result) {
         if (err)
             return res.json({
                 Message: "Error in Connecting to DB",

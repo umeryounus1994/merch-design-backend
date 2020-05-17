@@ -144,12 +144,7 @@ module.exports.markDesignPublic = (data ,callback) =>  {
         }
         })
 }
-module.exports.markAllDesignPublic = (callback) =>  {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const yyyy = today.getFullYear();
-    const hh = String(today.getHours()).padStart(2, "0");
-    const min = String(today.getMinutes()).padStart(2, "0");
-    design.updateMany({},{ $set: { launchDateTime: yyyy + "-" + mm + "-" + dd + " " + hh + ":" + min ,designStatus: "active" } }, callback)
+module.exports.markAllDesignPublic = (data,callback) =>  {
+    
+    design.updateMany({designStatus: 'private'},{ $set: { launchDateTime: data.launchDateTime ,designStatus: "active" } }, callback)
 }
