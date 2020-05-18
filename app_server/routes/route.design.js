@@ -179,6 +179,13 @@ router.get('/updateStatus/:designId', function (req, res) {
     });
 });
 
+router.post('/lockDesignStatus', function (req, res) {
+    designs.lockDesignStatus(req.body, res);
+});
+router.post('/unlockDesignStatus', function (req, res) {
+    designs.unlockDesignStatus(req.body, res);
+});
+
 router.get('/list_designs_home', function (req, res) {
     designs.getDesignsListHome(function (err, result) {
         if (err)
@@ -305,6 +312,7 @@ router.post('/mark_all_design_public', function (req, res) {
         return res.json(reslt);
     });
 });
+
 
 
 module.exports = router;

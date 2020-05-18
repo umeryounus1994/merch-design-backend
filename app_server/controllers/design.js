@@ -89,6 +89,30 @@ module.exports.updateDesignStatus = (id ,callback) =>  {
         })
 }
 
+module.exports.lockDesignStatus = (data ,res) =>  {
+    var query = { _id: data.id };
+    design.find(query, function (err, d) {
+        if(d.length>0) {
+            if(d[0].lockStatus == 'open') {
+                d[0].lockStatus=data.status;
+                return res.json({status: true});
+            } else {
+                return res.json({status: false});
+            }
+        }
+        })
+}
+
+module.exports.unlockDesignStatus = (data ,res) =>  {
+    var query = { _id: data.id };
+    design.find(query, function (err, d) {
+        if(d.length>0) {
+                d[0].lockStatus=data.status;
+                return res.json({status: true});
+        }
+        })
+}
+
 module.exports.getDesignsList = (callback, limit) => {
     var query = {designUsed: 'yes', designStatus: 'active'}
 	design.find(query,callback).populate("categoryId").limit(limit);

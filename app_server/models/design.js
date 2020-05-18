@@ -28,6 +28,10 @@ const designSchema = new schema({
     designStatus: String,
     designUsed: String,
     createdBy: String,
+    lockStatus : {
+        type: String,
+        default: 'open'
+    },
     categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     createdDate: {
         type: Date,
