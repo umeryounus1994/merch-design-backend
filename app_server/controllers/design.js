@@ -93,8 +93,10 @@ module.exports.lockDesignStatus = (data ,res) =>  {
     var query = { _id: data.id };
     design.find(query, function (err, d) {
         if(d.length>0) {
+            console.log(d[0])
             if(d[0].lockStatus == 'open') {
                 d[0].lockStatus=data.status;
+                d[0].save();
                 return res.json({status: true});
             } else {
                 return res.json({status: false});
@@ -108,6 +110,7 @@ module.exports.unlockDesignStatus = (data ,res) =>  {
     design.find(query, function (err, d) {
         if(d.length>0) {
                 d[0].lockStatus=data.status;
+                d[0].save();
                 return res.json({status: true});
         }
         })
