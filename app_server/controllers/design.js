@@ -97,7 +97,21 @@ module.exports.lockDesignStatus = (data ,res) =>  {
             if(d[0].lockStatus == 'open') {
                 d[0].lockStatus=data.status;
                 d[0].save();
+
+                setTimeout(function() {
+                        console.log("unlock execute")
+                    var query = { _id: data.id };
+                    design.find(query, function (err, d) {
+                        if(d.length>0) {
+                                d[0].lockStatus="open";
+                                d[0].save();
+                        }
+                        })
+
+                }, 900000);
+
                 return res.json({status: true});
+
             } else {
                 return res.json({status: false});
             }
