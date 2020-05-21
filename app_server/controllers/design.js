@@ -103,6 +103,7 @@ module.exports.lockDesignStatus = (data ,res) =>  {
             }
         }
         })
+
 }
 
 module.exports.unlockDesignStatus = (data ,res) =>  {
@@ -122,9 +123,15 @@ module.exports.getDesignsList = (callback, limit) => {
 }
 
 module.exports.getDesignsListHome = (callback, limit) => {
+    var query = {designUsed: 'no', designStatus: 'active', lockStatus: 'open'}
+	design.find(query,callback).populate("categoryId").limit(limit);
+}
+
+module.exports.getDesignsListDashboard = (callback, limit) => {
     var query = {designUsed: 'no', designStatus: 'active'}
 	design.find(query,callback).populate("categoryId").limit(limit);
 }
+
 
 module.exports.GetPrivateDesigns = (callback, limit) => {
     var query = {designUsed: 'no', designStatus: 'private'}

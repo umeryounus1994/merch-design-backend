@@ -199,6 +199,21 @@ router.get('/list_designs_home', function (req, res) {
     });
 });
 
+router.get('/list_designs_dashboard', function (req, res) {
+    designs.getDesignsListDashboard(function (err, result) {
+        if (err)
+            return res.json({
+                Message: "Error in Connecting to DB",
+                status: false
+            });
+        var reslt = {status : true, data: result};
+        return res.json(reslt);
+
+    });
+});
+
+
+
 router.get('/private_designs', function (req, res) {
     designs.GetPrivateDesigns(function (err, result) {
         if (err)
