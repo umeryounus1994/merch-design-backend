@@ -39,7 +39,7 @@ app.use(cors());
 
 
 // Set up mongoose connection
-let dev_db_url = 'mongodb+srv://merchuser:merchpassword@merchdesign-gbp8n.mongodb.net/merchdb';
+let dev_db_url = 'mongodb+srv://merchuser:merchpassword@merchdesignsclub-10qfo.mongodb.net/merchdb';
 const mongoDB = process.env.dev_db_url ||  dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => console.log('MongoDB connected…'))
 .catch(err => console.log(err));
