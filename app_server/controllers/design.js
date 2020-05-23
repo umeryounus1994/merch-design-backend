@@ -98,6 +98,7 @@ module.exports.lockDesignStatus = (data ,res) =>  {
                 d[0].lockStatus=data.status;
                 d[0].save();
 
+                // unlock method is called after 5mins which is equivilant to 300000 in millliseconds
                 setTimeout(function() {
                         console.log("unlock execute")
                     var query = { _id: data.id };
@@ -108,7 +109,7 @@ module.exports.lockDesignStatus = (data ,res) =>  {
                         }
                         })
 
-                }, 900000);
+                }, 300000);
 
                 return res.json({status: true});
 
