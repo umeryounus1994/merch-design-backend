@@ -134,7 +134,7 @@ module.exports.unlockDesignStatus = (data ,res) =>  {
 
 module.exports.getDesignsList = (callback, limit) => {
     var query = {designUsed: 'yes', designStatus: 'active'}
-	design.find(query,callback).populate("categoryId").limit(limit);
+	design.find(query,callback).populate("categoryId").sort({"createdDate": -1}).limit(limit);
 }
 
 module.exports.getDesignsListHome = (callback, limit) => {
@@ -144,13 +144,13 @@ module.exports.getDesignsListHome = (callback, limit) => {
 
 module.exports.getDesignsListDashboard = (callback, limit) => {
     var query = {designUsed: 'no', designStatus: 'active'}
-	design.find(query,callback).populate("categoryId").limit(limit);
+	design.find(query,callback).populate("categoryId").sort({"createdDate": -1}).limit(limit);
 }
 
 
 module.exports.GetPrivateDesigns = (callback, limit) => {
     var query = {designUsed: 'no', designStatus: 'private'}
-	design.find(query,callback).populate("categoryId").limit(limit);
+	design.find(query,callback).populate("categoryId").sort({"createdDate": -1}).limit(limit);
 }
 
 module.exports.getSingleDesign = (designId,callback) => {

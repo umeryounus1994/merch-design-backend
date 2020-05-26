@@ -33,7 +33,7 @@ module.exports.login = (email,password,res) => {
 
 module.exports.getCustomerList = (callback, limit) => {
     var query = { 'role': 'customer' };
-	user.find(query,callback).limit(limit);
+	user.find(query,callback).sort({"createdDate": -1}).limit(limit);
 }
 module.exports.getSalesList = (callback, limit) => {
 	sales.find(callback).limit(limit);
