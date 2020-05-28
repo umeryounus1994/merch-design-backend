@@ -147,7 +147,7 @@ module.exports.addUserSocial = (data , res,callback) =>  {
         record.logintype=data.logintype;
         record.status=data.status;
         record.email=data.email;
-        record.password=data.password;
+        record.password=record.hashPassword("merch897856");
         record.subscriptionData = [];
         record.save(callback);
     });

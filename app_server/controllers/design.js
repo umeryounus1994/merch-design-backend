@@ -109,7 +109,7 @@ module.exports.lockDesignStatus = (data ,res) =>  {
                         }
                         })
 
-                }, 300000);
+                }, 600000);
 
                 return res.json({status: true});
 
