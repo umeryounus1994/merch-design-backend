@@ -16,6 +16,7 @@ aws.config.update({
       acl: 'public-read',
       s3,
       bucket: 'merchdesignclub',
+      contentType: multerS3.AUTO_CONTENT_TYPE,
       metadata: function (req, file, cb) {
         cb(null, {fieldName: 'TESTING_METADATA'});
       },
